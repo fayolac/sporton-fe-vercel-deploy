@@ -1,50 +1,26 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Button from "../ui/button";
 import { FiPlus } from "react-icons/fi";
 import PriceFormatter from "@/app/utils/price-formatter";
+import { Product } from "@/app/types";
+import { getImageUrl } from "../../lib/api";
+import { useCartStore } from "@/app/hooks/use-cart-store";
 
-const productList = [
-    {
-        name : "SportOn Product 1",
-        category: "Running",
-        price: 450000,
-        imgurl: "product-1.svg"
-    },
-    {
-        name : "SportOn Product 2",
-        category: "Running",
-        price: 250000,
-        imgurl: "product-2.svg"
-    },
-    {
-        name : "SportOn Product 3",
-        category: "Running",
-        price: 230000,
-        imgurl: "product-3.svg"
-    },
-    {
-        name : "SportOn Product 4",
-        category: "Running",
-        price: 450000,
-        imgurl: "product-4.svg"
-    },
-    {
-        name : "SportOn Product 5",
-        category: "Running",
-        price: 550000,
-        imgurl: "product-5.svg"
-    },
-    {
-        name : "SportOn Product 6",
-        category: "Running",
-        price: 650000,
-        imgurl: "product-6.svg"
-    },
-]
+type TProductsProps = {
+    products: Product[];
+};
 
+const ProductsSection = ({products}: TProductsProps) => {
+    const {addItem} = useCartStore();
+    const handleAddtoCart = (e: React.MouseEvent, product: Product) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addItem(product);
+    }
 
-const ProductsSection = () => {
     return (
         <section 
             id="products-section" className="container mx-auto mt-32 mb-52">
@@ -54,24 +30,26 @@ const ProductsSection = () => {
 
                 <div className="grid grid-cols-4 gap-5">
                     {
-                       productList.map((product, index) =>  (
-                            <Link href={`/product/${product.name}`} key={index} className="p-1.5 bg-white hover:drop-shadow-xl duration-300">
+                       products.map((product) =>  (
+                            <Link 
+                            href={`/product/${product._id}`} 
+                            key={product._id} className="p-1.5 bg-white hover:drop-shadow-xl duration-300">
                                <div className="bg-primary-light aspect-square w-full flex justify-center items-center relative">
                                     <Image 
-                                    src={`/images/products/${product.imgurl}`} 
+                                    src={getImageUrl(product.imageUrl)} 
                                     alt={product.name} 
                                     width={300} 
                                     height={300} 
                                     className="aspect-square object-contain"
                                     />
-                                    <Button className="w-10 h-10 p-2! absolute right-3 top-3">
+                                    <Button className="w-10 h-10 p-2! absolute right-3 top-3" onClick={(e) => handleAddtoCart(e, product)}>
                                         <FiPlus size={24}/>
                                     </Button>
                                 </div> 
                                 <h3 className="font-medium text-lg mb-1.5 mt-4">{product.name}</h3>
                                 <div className="flex justify-between mb-8">
                                     <div className="text-gray-500">
-                                        {product.category}
+                                        {product.category.name}
                                     </div>
                                     <div className="font-medium text-primary">
                                         {PriceFormatter(product.price)}

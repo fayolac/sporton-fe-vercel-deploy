@@ -4,13 +4,24 @@ import { FiArrowRight,FiChevronDown, FiChevronUp, FiShoppingBag, FiShoppingCart 
 import Button from "../ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { Product } from "@/app/types";
 
-const ProductActions = () => {
+type TProductActionsProps = {
+    stock: number;
+    product: Product;
+}
+
+const ProductActions = ({product, stock}: TProductActionsProps) => {
+    const {addItem} = useCartStore();
     const {push} = useRouter();
     const [qty,setQty] = useState(1);
+    const handleAddtoCart = () => {
+        addItem(product, qty)
+    }
 
-    const checkout = () => {
-
+    const handleCheckout = () => {
+        push("/checkout");
     }
     return (
         <div className="flex gap-5">
@@ -19,18 +30,18 @@ const ProductActions = () => {
                     <span>{qty}</span>
                 </div>
                 <div className="flex flex-col">
-                    <button className="border-b border-gray-500 cursor-pointer h-1/2 aspect-square flexs items-center justify-center"
-                    onClick={() => setQty(qty+1)}>
+                    <button className="border-b border-gray-500 cursor-pointer h-1/2 aspect-square flex items-center justify-center"
+                    onClick={() => setQty(qty < stock ? qty + 1 : qty)}>
                         <FiChevronUp/>
                     </button>
-                    <button className="cursor-pointer h-1/2 aspect-square flexs items-center justify-center"
+                    <button className="cursor-pointer h-1/2 aspect-square flex items-center justify-center"
                     onClick={() => setQty(qty > 1 ? qty - 1 : qty)}>
                         <FiChevronDown />
                     </button>
 
                 </div>
             </div>
-            <Button className="px-20 w-full">
+            <Button className="px-20 w-full" onClick={handleAddtoCart}>
                 <FiShoppingBag size={24}/>
                 Add to Cart    
             </Button> 
