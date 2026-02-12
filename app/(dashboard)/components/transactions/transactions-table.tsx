@@ -1,5 +1,6 @@
 import PriceFormatter from "@/app/utils/price-formatter";
-import { FiEye } from "react-icons/fi";
+import { FiEye, FiEdit2, FiTrash2 } from "react-icons/fi";
+import { Transaction } from "@/app/types";
 
 const transactionsData = [
 {
@@ -26,10 +27,11 @@ const transactionsData = [
 ];
 
 type TCategoryTableProps = {
-    onViewDetails: () => void;
-}
+    onViewDetails: (transaction: Transaction) => void;
+    transactions: Transaction[];
+};
 
-const TransactionsTable = ({onViewDetails}:TCategoryTableProps) => {
+const TransactionsTable = ({onViewDetails, transactions}: TCategoryTableProps) => {
 
     const getStatusColor = (status:string) => {
         switch (status.toLowerCase()) {
@@ -57,20 +59,23 @@ const TransactionsTable = ({onViewDetails}:TCategoryTableProps) => {
                 </thead>
                 <tbody>
                     {
-                        transactionsData.map((data, index) => (
-                            <tr key={index} 
+                        transactions.map((data) => (
+                            <tr key={data._id} 
                             className="border-b border-gray-200 last:border-b-0">
                                 <td className="px-6 py-4 font-medium">
-                                    {data.date}
+                                    {new Date(data.createdAt).toLocaleDateString("id-ID", {
+                                        day: "numeric", month: "short", year:"numeric",
+                                        hour:"2-digit", minute:"2-digit",
+                                    })}
                                 </td>
                                 <td className="px-6 py-4 font-medium"> 
-                                    {data.customer}
+                                    {data.customerName}
                                 </td>
                                 <td className="px-6 py-4 font-medium"> 
-                                    {data.contact}
+                                    {data.customerContact}
                                 </td>
                                 <td className="px-6 py-4 font-medium">
-                                    {PriceFormatter(data.total)}
+                                    {PriceFormatter(parseInt(data.totalPayment))}
                                 </td>
                                 <td className="px-6 py-4 font-medium">
                                     <div className={`px-4 py-1 rounded-full border text-center w-fit text-sm uppercase
@@ -79,7 +84,7 @@ const TransactionsTable = ({onViewDetails}:TCategoryTableProps) => {
                                     </div>
                                 </td>  
                                 <td className="flex gap-3 text-gray-600 items-center px-6 py-7.5">
-                                    <button onClick={onViewDetails}
+                                    <button onClick={() => onViewDetails(data)}
                                     className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 w-fit py-1 px-2 rounded-md">
                                         <FiEye size={18}/> View Details
                                     </button>

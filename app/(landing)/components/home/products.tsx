@@ -6,7 +6,7 @@ import Button from "../ui/button";
 import { FiPlus } from "react-icons/fi";
 import PriceFormatter from "@/app/utils/price-formatter";
 import { Product } from "@/app/types";
-import { getImageUrl } from "../../lib/api";
+import { getImageUrl } from "../../../lib/api";
 import { useCartStore } from "@/app/hooks/use-cart-store";
 
 type TProductsProps = {

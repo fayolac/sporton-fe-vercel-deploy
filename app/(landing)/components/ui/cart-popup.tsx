@@ -4,7 +4,7 @@ import Button from "./button";
 import { FiArrowRight, FiTrash2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/app/hooks/use-cart-store";
-import { getImageUrl } from "../../lib/api";
+import { getImageUrl } from "../../../lib/api";
 
 
 const CartPopup = () => {

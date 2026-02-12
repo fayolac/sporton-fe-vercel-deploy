@@ -2,7 +2,7 @@ import Image from "next/image";
 import ProductActions from "../../components/product-detail/product-action";
 import PriceFormatter from "@/app/utils/price-formatter";
 import { getProductDetail } from "@/app/services/product.service";
-import { getImageUrl } from "../../lib/api";
+import { getImageUrl } from "../../../lib/api";
 
 export type TPageProps = {
     params:Promise<{id: string}>;

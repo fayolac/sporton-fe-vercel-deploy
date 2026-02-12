@@ -19,7 +19,7 @@ const Modal = ({isOpen, onClose, title, children}: TModalProps ) => {
             <div className="relative bg-white rouded-xl w-full max-w-2xl">
                 <div className="flex justify-between items-center px-7 py-3 border-b border-gray-200">
                     <h3 className="font-semibold text-xl">{title}</h3>
-                    <button onClick={onClose} className="p4 rounded-full hover:bg-gray-100 curson-pointer">
+                    <button onClick={onClose} className="p-4 rounded-full hover:bg-gray-100 curson-pointer">
                         <FiX size={24}/>
                     </button>
                 </div>

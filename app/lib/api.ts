@@ -1,13 +1,12 @@
 export async function fetchAPI<T>(
     endpoint: string,
-    options?: RequestInit
+    options?: RequestInit,
     
 ): Promise<T> {
-    const res = await fetch (`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
         ...options,
         cache: options?.cache || "no-store", //kita set no-store karena kita ingin mendapat data lebih real time atau lebih updated
-
-    })
+    });
 
     if (!res.ok) {
         let errorMessage = `Failed to fetch data from ${endpoint}`;
@@ -25,7 +24,15 @@ export async function fetchAPI<T>(
 }
 
 export function getImageUrl(path: string) {
-    if (path.startsWith("http")) return path;
+    if (path.startsWith("http")) return path; //url sudah valid
 
     return `${process.env.NEXT_PUBLIC_API_ROOT}/${path}`;
+};
+
+export function getAuthHeaders() {
+    const token = localStorage.getItem("token");
+    console.log("TOKEN VALUE:", token)
+    return {
+        Authorization: `Bearer ${token}`,
+  };
 }

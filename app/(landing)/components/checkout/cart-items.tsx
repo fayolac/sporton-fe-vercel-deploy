@@ -7,7 +7,7 @@ import { FiCreditCard, FiTrash2 } from "react-icons/fi";
 import CardWithHeader from "../ui/card-with-header";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/app/hooks/use-cart-store";
-import { getImageUrl } from "../../lib/api";
+import { getImageUrl } from "../../../lib/api";
 
 type TCartItems = {
   handlePayment: () => void;
